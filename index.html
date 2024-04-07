@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petrol Pump Directory</title>
+<style>
+
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+button {
+  background-color: red;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: lightgreen;
+}
+
+.green {
+  background-color: lightgreen !important;
+}
+
+
+</style>
+</head>
+<body>
+
+<h2>Petrol Pump Directory</h2><h3>(please wait 20 - 30 seconds as it has so many records)</h3>
+
+<table id="petrolPumpTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address with Contact</th>
+      <th>Website</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Table rows will be populated dynamically using JavaScript -->
+  </tbody>
+</table>
+
+<script>
+// JS code to fetch data from Excel and populate the table
+document.addEventListener('DOMContentLoaded', function() {
+  // Replace 'data.json' with the path to your Excel data file
+  fetch('data.json')
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.querySelector('#petrolPumpTable tbody');
+      data.forEach(petrolPump => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${petrolPump.Name}</td>
+          <td>${petrolPump.Address_with_Contact}</td>
+          <td>${petrolPump.Website}</td>
+          <td>${petrolPump.Location}</td>
+          <td>
+            <button class="callButton" onclick="toggleColor(this, 'call')">Call</button>
+            <button class="whatsappButton" onclick="toggleColor(this, 'whatsapp')">WhatsApp</button>
+
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+});
+
+// JS function to toggle button color and perform action
+let clickCount = 0;
+
+function toggleColor(button, type) {
+  clickCount++;
+  const greenLevel = Math.min(clickCount * 20, 255); // Increase green level with each click, but cap it at 255
+  const greenColor = `rgb(0, ${greenLevel}, 0)`; // Calculate green color value
+
+  button.style.backgroundColor = greenColor;
+
+  // Perform action based on button type (e.g., make call or send WhatsApp message)
+  if (type === 'call') {
+    // Code to initiate a call
+    console.log('Making call...');
+  } else if (type === 'whatsapp') {
+    // Code to send a WhatsApp message
+    console.log('Sending WhatsApp message...');
+  }
+}
+</script>
+
+</body>
+</html>
