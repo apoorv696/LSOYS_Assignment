@@ -6,7 +6,21 @@
 <title>Petrol Pump Directory</title>
 <style>
 
+.tab {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
+@media screen and (max-width: 768px) {
+    th, td {
+        padding: 8px 5px; /* Smaller padding on small screens */
+        font-size: 12px; /* Smaller font size on small screens */
+    }
+    /* Optional: Hide less important columns on smaller screens */
+    .hide-on-small {
+        display: none;
+    }
+}
 table {
   table-layout: fixed;
   width: 100%;
@@ -42,7 +56,7 @@ button:hover {
 </style>
 </head>
 <body>
-
+<div class="tab">
 <h2>Petrol Pump Directory</h2><h3>(please wait 20 - 30 seconds as it has so many records)</h3>
 
 <table id="petrolPumpTable">
@@ -58,7 +72,7 @@ button:hover {
     <!-- Table rows will be populated dynamically using JavaScript -->
   </tbody>
 </table>
-
+</div>
 <script>
 // JS code to fetch data from Excel and populate the table
 document.addEventListener('DOMContentLoaded', function() {
