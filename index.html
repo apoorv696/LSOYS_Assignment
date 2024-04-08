@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Petrol Pump Directory</title>
 <style>
-
 .tab {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -22,7 +21,7 @@
     }
 }
 table {
-/*   table-layout: fixed; */
+  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
 }
@@ -52,7 +51,6 @@ button:hover {
   background-color: lightgreen !important;
 }
 
-
 </style>
 </head>
 <body>
@@ -74,13 +72,12 @@ button:hover {
 </table>
 </div>
 <script>
-// JS code to fetch data from Excel and populate the table
 document.addEventListener('DOMContentLoaded', function() {
-  // Replace 'data.json' with the path to your Excel data file
   fetch('data.json')
     .then(response => response.json())
     .then(data => {
       const tableBody = document.querySelector('#petrolPumpTable tbody');
+      const fragment = document.createDocumentFragment();
       data.forEach(petrolPump => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -89,39 +86,37 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${petrolPump.Website}</td>
           <td>${petrolPump.Location}</td>
           <td>
-            <button class="callButton" onclick="toggleColor(this, 'call')">Call</button>
-            <button class="whatsappButton" onclick="toggleColor(this, 'whatsapp')">WhatsApp</button>
-
+            <button class="actionButton" data-action="call">Call</button>
+            <button class="actionButton" data-action="whatsapp">WhatsApp</button>
           </td>
         `;
-        tableBody.appendChild(row);
+        fragment.appendChild(row);
       });
+      tableBody.appendChild(fragment);
     })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
+    .catch(error => console.error('Error fetching data:', error));
 });
 
-// JS function to toggle button color and perform action
-let clickCount = 0;
-
-function toggleColor(button, type) {
-  clickCount++;
-  const greenLevel = Math.min(clickCount * 20, 255); // Increase green level with each click, but cap it at 255
-  const greenColor = `rgb(0, ${greenLevel}, 0)`; // Calculate green color value
-
-  button.style.backgroundColor = greenColor;
-
-  // Perform action based on button type (e.g., make call or send WhatsApp message)
-  if (type === 'call') {
-    // Code to initiate a call
-    console.log('Making call...');
-  } else if (type === 'whatsapp') {
-    // Code to send a WhatsApp message
-    console.log('Sending WhatsApp message...');
+document.querySelector('#petrolPumpTable').addEventListener('click', function(event) {
+  if (event.target.matches('.actionButton')) {
+    const button = event.target;
+    toggleColor(button);
+    const action = button.getAttribute('data-action');
+    console.log(`Performing ${action}...`);
+    // Implement action handling logic here
   }
-}
-</script>
+});
 
+function toggleColor(button) {
+  let greenLevel = button.getAttribute('data-green-level') || 0;
+  greenLevel = parseInt(greenLevel) + 20;
+  if (greenLevel > 255) {
+    greenLevel = 255;
+  }
+  button.style.backgroundColor = `rgb(0, ${greenLevel}, 0)`;
+  button.setAttribute('data-green-level', greenLevel);
+}
+
+</script>
 </body>
 </html>
