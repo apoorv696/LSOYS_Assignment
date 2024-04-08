@@ -50,6 +50,14 @@ button:hover {
 .green {
   background-color: lightgreen !important;
 }
+td:last-child {
+  display: flex; /* Use flexbox for button layout */
+  justify-content: space-between; /* Distribute buttons evenly */
+}
+button.actionButton {
+  width: 40%; /* Adjust width as needed */
+  margin: 0 5px; /* Add some margin for separation */
+}
 
 </style>
 </head>
@@ -73,7 +81,7 @@ button:hover {
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('./data.json')
+  fetch('data.json')
     .then(response => response.json())
     .then(data => {
       const tableBody = document.querySelector('#petrolPumpTable tbody');
