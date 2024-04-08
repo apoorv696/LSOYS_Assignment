@@ -30,11 +30,9 @@ table, th, td {
   border: 1px solid black;
   padding: 8px;
 }
-/* Enable word wrapping for the Location column */
 #petrolPumpTable td:nth-child(4) {
   white-space: normal;
 }
-
 th {
   background-color: #f2f2f2;
 }
@@ -95,8 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
         row.innerHTML = `
           <td>${petrolPump.Name}</td>
           <td>${petrolPump.Address_with_Contact}</td>
-          <td>${petrolPump.Website}</td>
-          <td>${petrolPump.Location}</td>
+          <td><a href="${petrolPump.Website}" alt="${petrolPump.Website} ">website link</a></td>
+          <td><a href="${petrolPump.Location}" alt="${petrolPump.Location}">location link</a></td>
+          
           <td>
             <button class="actionButton" data-action="call">Call</button>
             <button class="actionButton" data-action="whatsapp">WhatsApp</button>
